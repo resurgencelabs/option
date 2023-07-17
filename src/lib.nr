@@ -1,3 +1,5 @@
+use dep::std;
+
 struct Option<T> {
     null: bool,
     else_value: T,
@@ -44,7 +46,20 @@ fn assertNull<T>(o: Option<T>) {
 }
 
 
-fn makeNull<T>(garb: T) -> Option<T> {
+
+
+fn makeNull<T>() -> Option<T> {
+    let zero: T = std::unsafe::zeroed();
+    let op = Option {
+        null: true,
+        else_value: zero,
+    };
+    op
+}
+
+// To be used in case there isn't a default zero value for the type T
+fn makeNull2<T>(garb: T) -> Option<T> {
+    
     let op = Option {
         null: true,
         else_value: garb,
